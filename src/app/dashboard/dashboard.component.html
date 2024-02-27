@@ -1,0 +1,50 @@
+<div class="container text-center mt-5">
+  <div class="clock-container">
+    <div class="clock-time">{{ time }}</div>
+  </div>
+
+  <button
+    [ngClass]="{
+      btn: true,
+      'btn-success': !isClockedIn,
+      'btn-danger': isClockedIn
+    }"
+    (click)="Clock()"
+  >
+    {{ isClockedIn ? "Clock Out" : "Clock In" }}
+  </button>
+  <table mat-table [dataSource]="lastFiveRecords" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="_id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let record">{{ record._id }}</td>
+    </ng-container>
+
+    <!-- User Name Column -->
+    <ng-container matColumnDef="user.name">
+      <th mat-header-cell *matHeaderCellDef>User Name</th>
+      <td mat-cell *matCellDef="let record">{{ record.user.name }}</td>
+    </ng-container>
+
+    <!-- Clock In Time Column -->
+    <ng-container matColumnDef="clockInTime">
+      <th mat-header-cell *matHeaderCellDef>Clock In Time</th>
+      <td mat-cell *matCellDef="let record">
+        {{ record.clockInTime | date : "medium" }}
+      </td>
+    </ng-container>
+
+    <!-- Clock Out Time Column -->
+    <ng-container matColumnDef="clockOutTime">
+      <th mat-header-cell *matHeaderCellDef>Clock Out Time</th>
+      <td mat-cell *matCellDef="let record">
+        {{
+          record.clockOutTime ? (record.clockOutTime | date : "medium") : "N/A"
+        }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
